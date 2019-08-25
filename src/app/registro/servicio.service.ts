@@ -6,7 +6,10 @@ import { catchError, tap } from 'rxjs/operators';
 import { Transaccion } from '../Model/transaccion';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization':localStorage.getItem('token')
+  })
 };
 
 @Injectable({
@@ -14,7 +17,7 @@ const httpOptions = {
 })
 export class ServicioService {
 
-  public servicioUrl = 'http://18.222.64.155:8080/demo/'; // URL to web API
+  public servicioUrl = 'http://apicorenetcore.azurewebsites.net/api/invoice'; // URL to web API
   public servicios: Servicio[] = [];
   public servicio: Servicio;
   public errorMessage: string;
@@ -28,7 +31,7 @@ export class ServicioService {
     };
   }
   public getServicios(): Observable<Servicio[]> {
-    return this.http.get<Servicio[]>(this.servicioUrl + "/servicios").pipe(
+    return this.http.get<Servicio[]>(this.servicioUrl + "",httpOptions).pipe(
       catchError(this.handleError('getServicios', [])));
   }
 
@@ -42,7 +45,7 @@ export class ServicioService {
   }
 
   public update(servicio: Servicio): Observable<Transaccion> {
-    return this.http.put<Transaccion>(this.servicioUrl + "/servicio/update",
+    return this.http.post<Transaccion>(this.servicioUrl + "/paydebt",
       JSON.stringify(servicio), httpOptions).pipe(
         tap((transaccion: Transaccion) => console.log(transaccion.codigo)),
         catchError(this.handleError<Transaccion>('update'))
