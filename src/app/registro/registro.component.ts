@@ -15,7 +15,7 @@ export class RegistroComponent implements OnInit {
   serviciotmp: Servicio;
   cliente: Cliente;
   errorMessage: string;
-
+  p: number;
   constructor(private service: ServicioService) { }
 
   ngOnInit() {

@@ -14,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class LoginService {
-  public servicioUrl = 'http://apisegnetcore.azurewebsites.net/api/token'; // URL to web API
+  public servicioUrl = 'http://localhost:5002/api/token'; // URL to web API
   public usuario: Usuario;
 
   constructor(private http: HttpClient) { }
@@ -23,8 +23,12 @@ export class LoginService {
   public getToken(usuario: Usuario): Observable<any> {
     return this.http.post<any>(this.servicioUrl,
       JSON.stringify(usuario), httpOptions).pipe(map((res: HttpResponse<any>) => {
-        console.log("DATA =    " + res.headers.get("Authorization")); if (res.headers.has("Authorization")) { console.log("DATA =    " + res.headers.get("Authorization")); usuario.token = res.headers.get("Authorization").slice(7); }
-        localStorage.setItem('token',res.headers.get("Authorization"));
+        console.log("DATA =    " + res.headers.get("Authorization"));
+        if (res.headers.has("Authorization")) {
+          console.log("DATA =    " + res.headers.get("Authorization"));
+          usuario.token = res.headers.get("Authorization").slice(7);
+        }
+        localStorage.setItem('token', res.headers.get("Authorization"));
         return usuario;
       }), catchError(this.handleError))
   }

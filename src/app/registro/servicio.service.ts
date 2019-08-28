@@ -17,7 +17,7 @@ const httpOptions = {
 })
 export class ServicioService {
 
-  public servicioUrl = 'http://apicorenetcore.azurewebsites.net/api/invoice'; // URL to web API
+  public servicioUrl = 'http://localhost:5003/api/invoice'; // URL to web API
   public servicios: Servicio[] = [];
   public servicio: Servicio;
   public errorMessage: string;
